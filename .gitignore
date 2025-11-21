@@ -1,1 +1,11 @@
+# Ignore generated artifacts and logs
+artifacts/
+logs/
+
+# Python cache and bytecode
+__pycache__/
+*.pyc
+
+# Virtual environment
+myenv/
 
