@@ -1,5 +1,4 @@
-# Ignore generated artifacts and logs
-artifacts/
+# Ignore generated logs
 logs/
 
 # Python cache and bytecode
