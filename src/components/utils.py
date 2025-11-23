@@ -6,6 +6,7 @@ import pickle
 import dill
 from src.components.exception import CustomException
 from src.components.logger import logging
+from sklearn.model_selection import GridSearchCV
 
 def save_object(file_path: str, obj: object) -> None:
     """Saves a Python object to a file using dill serialization.
@@ -51,7 +52,7 @@ def evaluate_models(X_train, y_train, X_test, y_test, models: dict, param: dict)
         params = param.get(name, {}) if param is not None else {}
 
         if params:
-            gs = GridSearchCV(model, params, cv=3, n_jobs=-1, verbose=0)
+            gs = GridSearchCV(model, params, cv=3, n_jobs=-1, verbose=0 )
             gs.fit(X_train, y_train)
             best_estimator = gs.best_estimator_
             logging.info(f"Best params for {name}: {gs.best_params_}")
@@ -77,3 +78,20 @@ def evaluate_models(X_train, y_train, X_test, y_test, models: dict, param: dict)
         logging.info(f"Model {name} test R2: {score}")
 
     return report, best_params_report
+
+
+def load_object(file_path: str):
+    """Load a Python object from a file using dill.
+
+    Args:
+        file_path (str): Path to the file to load.
+
+    Returns:
+        object: The loaded Python object.
+    """
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return dill.load(file_obj)
+    except Exception as e:
+        logging.error(f"Error loading object from {file_path}: {e}")
+        raise CustomException(e, sys)
