@@ -111,3 +111,15 @@ class ModelTrainer:
 
         except Exception as e:
             raise CustomException(e, sys)
+        
+if __name__ == "__main__":
+    from src.components.data_transformation import DataTransformation
+    import numpy as np
+
+    dt = DataTransformation()
+    train_arr, test_arr, _ = dt.initiate_data_transformation("artifacts/train.csv",
+                                                             "artifacts/test.csv")
+
+    trainer = ModelTrainer()
+    r2 = trainer.initiate_model_trainer(train_arr, test_arr)
+    print("Model training completed. R2:", r2)
