@@ -1,13 +1,18 @@
 from flask import Flask, request, render_template
 import os
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import StandardScaler
-from src.pipeline.predict_pipeline import PredictPipeline, CustomData
+import sys
+
+# Add current directory to path to ensure src imports work
+sys.path.insert(0, os.path.dirname(__file__))
 
 # Main application object for Gunicorn
 application = Flask(__name__)
 app = application
+
+# Health check endpoint for AWS EB
+@app.route('/health')
+def health():
+    return {'status': 'healthy'}, 200
 
 # Route for home page
 @app.route('/')
@@ -20,6 +25,9 @@ def predict_datapoint():
         return render_template('home.html')
     else:
         try:
+            # Import here to avoid loading models at startup
+            from src.pipeline.predict_pipeline import PredictPipeline, CustomData
+            
             data = CustomData(
                 gender=request.form.get('gender'),
                 race_ethnicity=request.form.get('race_ethnicity'),
@@ -37,7 +45,10 @@ def predict_datapoint():
             return render_template('home.html', prediction=prediction[0])
         
         except Exception as e:
-            return f"Error: {str(e)}"
+            import traceback
+            error_details = traceback.format_exc()
+            app.logger.error(f"Prediction error: {error_details}")
+            return f"Error: {str(e)}<br><pre>{error_details}</pre>", 500
 
 # Run locally only
 if __name__ == "__main__":

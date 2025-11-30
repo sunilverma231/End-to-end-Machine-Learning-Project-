@@ -9,3 +9,4 @@ catboost
 xgboost
 dill
 gunicorn
+-e .
