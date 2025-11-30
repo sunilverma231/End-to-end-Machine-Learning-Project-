@@ -1,13 +1,18 @@
 from flask import Flask, request, render_template
 import os
 import sys
+import logging
 
 # Add current directory to path to ensure src imports work
 sys.path.insert(0, os.path.dirname(__file__))
 
+# Configure basic logging (Gunicorn will capture stdout/stderr)
+logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
+
 # Main application object for Gunicorn
 application = Flask(__name__)
 app = application
+app.logger.info("application.py imported; Flask app instantiated")
 
 # Health check endpoint for AWS EB
 @app.route('/health')
