@@ -1,0 +1,32 @@
+# Local virtual environments and caches
+myenv/
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Notebooks and large local data/logs
+notebook/
+logs/
+artifacts/*.csv
+artifacts/*.tsv
+catboost_info/
+
+# VCS and editor files
+.git/
+.gitignore
+.DS_Store
+.vscode/
+.idea/
+
+# Build outputs
+*.egg-info/
+dist/
+build/
+
+# Misc
+*.log
+*.zip
