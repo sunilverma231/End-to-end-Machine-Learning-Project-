@@ -90,7 +90,7 @@ jobs:
           
           ls -lh ${{ env.DEPLOY_PACKAGE_NAME }}
       
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
