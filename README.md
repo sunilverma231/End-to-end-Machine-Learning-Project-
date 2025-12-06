@@ -313,8 +313,8 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 **Sunil Verma**
 - GitHub: [@sunilverma231](https://github.com/sunilverma231)
-- LinkedIn: [Add your LinkedIn]
-- Email: [Add your email]
+- LinkedIn: [https://www.linkedin.com/in/sunil-verma-operations-analyst/]
+- Email: [sunilverma00027@gmail.com]
 
 ---
 
