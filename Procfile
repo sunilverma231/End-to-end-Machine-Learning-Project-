@@ -1,3 +1,1 @@
-web: gunicorn --bind :8000 --workers 1 --threads 2 --timeout 60 \
-	--access-logfile - --error-logfile - \
-	wsgi:application
+web: gunicorn --bind :8000 --workers 1 --threads 2 --timeout 60 --access-logfile - --error-logfile - wsgi:application
