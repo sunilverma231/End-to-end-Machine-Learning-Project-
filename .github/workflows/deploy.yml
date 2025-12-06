@@ -9,6 +9,10 @@ on:
       - main
   workflow_dispatch:  # Manual trigger option
 
+permissions:
+  id-token: write
+  contents: read
+
 env:
   AWS_REGION: eu-north-1
   EB_APPLICATION_NAME: Student_performance_env_1
