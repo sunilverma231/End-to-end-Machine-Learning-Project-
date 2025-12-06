@@ -1,13 +1,14 @@
 # 🎓 Student Performance Predictor - End-to-End ML Project
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen)](http://studentperformanceenv1-env.eba-wbvx3wpb.eu-north-1.elasticbeanstalk.com/)
+[![CI/CD](https://github.com/sunilverma231/End-to-end-Machine-Learning-Project-/actions/workflows/deploy.yml/badge.svg)](https://github.com/sunilverma231/End-to-end-Machine-Learning-Project-/actions/workflows/deploy.yml)
 [![Python](https://img.shields.io/badge/Python-3.11-blue)](https://www.python.org/)
 [![AWS](https://img.shields.io/badge/AWS-Elastic_Beanstalk-orange)](https://aws.amazon.com/elasticbeanstalk/)
 [![Flask](https://img.shields.io/badge/Flask-3.1.0-lightgrey)](https://flask.palletsprojects.com/)
 
 > **Live Application:** [http://studentperformanceenv1-env.eba-wbvx3wpb.eu-north-1.elasticbeanstalk.com/](http://studentperformanceenv1-env.eba-wbvx3wpb.eu-north-1.elasticbeanstalk.com/)
 
-A production-ready machine learning application that predicts student math scores based on various demographic and academic factors. Deployed on AWS Elastic Beanstalk with optimized resource usage for free-tier hosting.
+A production-ready machine learning application that predicts student math scores based on various demographic and academic factors. Deployed on AWS Elastic Beanstalk with **automated CI/CD pipeline** using GitHub Actions.
 
 ---
 
@@ -67,6 +68,7 @@ This project demonstrates a complete machine learning workflow from data explora
 ### **Deployment & DevOps**
 - **AWS Elastic Beanstalk** - Cloud hosting platform
 - **AWS Application Load Balancer** - Traffic distribution and health checks
+- **GitHub Actions** - CI/CD pipeline automation
 - **Nginx** - Reverse proxy server
 - **Git** - Version control
 
@@ -170,6 +172,51 @@ Trained and evaluated **6 regression models** using GridSearchCV:
 **Problem:** Deployment failed with "Procfile could not be parsed"  
 **Root Cause:** Tab characters in multi-line Procfile command  
 **Solution:** Reformatted to single-line command with spaces only
+
+---
+
+## 🔄 CI/CD Pipeline
+
+This project uses **GitHub Actions** for automated deployment to AWS Elastic Beanstalk.
+
+### **Pipeline Workflow**
+```
+Git Push → GitHub Actions → Tests → Build → S3 Upload → EB Deploy → Health Check
+```
+
+### **What happens on every push to main:**
+1. ✅ **Linting**: Code quality checks with flake8
+2. ✅ **Testing**: Runs pytest (if tests exist)
+3. ✅ **Build**: Creates deployment package (excludes dev files)
+4. ✅ **Upload**: Sends package to S3 bucket
+5. ✅ **Deploy**: Updates EB environment with new version
+6. ✅ **Verify**: Waits for health check to pass
+
+### **Setup CI/CD (One-time)**
+
+**📋 Step-by-Step Guide (15 minutes):** [`.github/SETUP_WALKTHROUGH.md`](.github/SETUP_WALKTHROUGH.md)
+
+**Quick Summary:**
+1. **AWS:** Create IAM user `github-actions-deployer` with EB + S3 permissions
+2. **AWS:** Generate access keys (save them!)
+3. **GitHub:** Add 3 secrets:
+   - `AWS_ACCESS_KEY_ID`
+   - `AWS_SECRET_ACCESS_KEY`
+   - `AWS_ACCOUNT_ID`
+4. **Test:** Push to main branch → Auto-deploy! 🚀
+
+**Additional Resources:**
+- 📖 [Detailed Setup Guide](.github/AWS_SETUP.md)
+- ✅ [Printable Checklist](.github/CHECKLIST.txt)
+- 🎯 [Quick Reference](.github/QUICK_REFERENCE.md)
+- 📊 [Pipeline Architecture](.github/CICD_ARCHITECTURE.md)
+
+### **Manual Deployment (Alternative)**
+Still works if you prefer manual control:
+```bash
+bash scripts/make_eb_bundle.sh
+# Upload the generated zip via AWS EB Console
+```
 
 ---
 

@@ -1,0 +1,197 @@
+┌─────────────────────────────────────────────────────────────────┐
+│                   CI/CD SETUP CHECKLIST                         │
+│              Print this or keep it open!                        │
+└─────────────────────────────────────────────────────────────────┘
+
+PHASE 1: AWS SETUP
+══════════════════════════════════════════════════════════════════
+
+□ Step 1: Login to AWS Console
+  → https://aws.amazon.com/console/
+  
+□ Step 2: Open IAM Dashboard
+  → Search bar → type "IAM" → click IAM
+  
+□ Step 3: Click "Users" in left sidebar
+  
+□ Step 4: Click orange "Create user" button
+  
+□ Step 5: Enter user name: github-actions-deployer
+  → DO NOT check console access
+  → Click "Next"
+  
+□ Step 6: Attach Policies
+  → Select "Attach policies directly"
+  → Search and CHECK: AWSElasticBeanstalkFullAccess
+  → Search and CHECK: AmazonS3FullAccess
+  → Click "Next"
+  
+□ Step 7: Click "Create user"
+  
+□ Step 8: Click on username → "Security credentials" tab
+  
+□ Step 9: Scroll to "Access keys" → "Create access key"
+  
+□ Step 10: Select "Third-party service" → Check box → "Next"
+  
+□ Step 11: Click "Create access key"
+  
+□ Step 12: ⚠️ SAVE THESE (only shown once!) ⚠️
+  
+  Open text editor and paste:
+  ┌───────────────────────────────────────────────────┐
+  │ AWS_ACCESS_KEY_ID=AKIA________________           │
+  │ AWS_SECRET_ACCESS_KEY=___________________________│
+  │ AWS_ACCOUNT_ID=____________                       │
+  └───────────────────────────────────────────────────┘
+  
+□ Step 13: Copy Access Key ID to text file
+  
+□ Step 14: Copy Secret Access Key to text file
+  
+□ Step 15: Click "Done"
+  
+□ Step 16: Get Account ID
+  → Top-right → Click your name → See Account ID (12 digits)
+  → Add to text file
+
+
+PHASE 2: GITHUB SETUP
+══════════════════════════════════════════════════════════════════
+
+□ Step 1: Open repository in browser
+  → https://github.com/sunilverma231/End-to-end-Machine-Learning-Project-
+  
+□ Step 2: Click "Settings" tab (top menu)
+  
+□ Step 3: Left sidebar → "Secrets and variables" → "Actions"
+  
+□ Step 4: Click "New repository secret"
+  
+□ Step 5: Add First Secret
+  Name: AWS_ACCESS_KEY_ID
+  Secret: [paste from text file]
+  → Click "Add secret"
+  
+□ Step 6: Click "New repository secret" again
+  
+□ Step 7: Add Second Secret
+  Name: AWS_SECRET_ACCESS_KEY
+  Secret: [paste from text file]
+  → Click "Add secret"
+  
+□ Step 8: Click "New repository secret" again
+  
+□ Step 9: Add Third Secret
+  Name: AWS_ACCOUNT_ID
+  Secret: [paste 12-digit number]
+  → Click "Add secret"
+  
+□ Step 10: Verify you see 3 secrets in the list
+
+
+PHASE 3: TEST DEPLOYMENT
+══════════════════════════════════════════════════════════════════
+
+□ Step 1: Open terminal
+  
+□ Step 2: Navigate to project
+  cd /Users/sunilverma/Desktop/End-to-end-Machine-Learning-Project-
+  
+□ Step 3: Add all files
+  git add .
+  
+□ Step 4: Commit
+  git commit -m "feat: Add CI/CD pipeline with GitHub Actions"
+  
+□ Step 5: Push to trigger deployment
+  git push origin main
+  
+□ Step 6: Watch deployment
+  → Open: https://github.com/sunilverma231/End-to-end-Machine-Learning-Project-/actions
+  → See yellow dot 🟡 → wait for green ✅
+  
+□ Step 7: Wait ~7 minutes for completion
+  
+□ Step 8: Verify success
+  → GitHub Actions shows green ✅
+  → App URL still works
+  → AWS EB shows new version
+
+
+VERIFICATION CHECKLIST
+══════════════════════════════════════════════════════════════════
+
+□ IAM user exists in AWS
+□ IAM user has 2 policies attached
+□ Access keys are saved in text file
+□ GitHub has 3 secrets (all green, no warnings)
+□ Git push triggered GitHub Actions
+□ All workflow steps show green ✅
+□ App URL loads: http://studentperformanceenv1-env.eba-wbvx3wpb.eu-north-1.elasticbeanstalk.com/
+□ Can make prediction successfully
+
+
+COMMON MISTAKES TO AVOID
+══════════════════════════════════════════════════════════════════
+
+❌ Forgetting to save access keys (can't retrieve later!)
+❌ Extra spaces in GitHub secrets
+❌ Wrong AWS_ACCOUNT_ID (must be exactly 12 digits)
+❌ Not checking "Third-party service" when creating keys
+❌ Not attaching policies to IAM user
+❌ Using personal AWS account ID instead of the one from console
+
+
+QUICK REFERENCE
+══════════════════════════════════════════════════════════════════
+
+AWS Console:        https://aws.amazon.com/console/
+GitHub Repo:        https://github.com/sunilverma231/End-to-end-Machine-Learning-Project-
+GitHub Actions:     https://github.com/sunilverma231/End-to-end-Machine-Learning-Project-/actions
+Live App:           http://studentperformanceenv1-env.eba-wbvx3wpb.eu-north-1.elasticbeanstalk.com/
+
+IAM User Name:      github-actions-deployer
+Policies Needed:    AWSElasticBeanstalkFullAccess, AmazonS3FullAccess
+
+GitHub Secrets:
+  1. AWS_ACCESS_KEY_ID
+  2. AWS_SECRET_ACCESS_KEY  
+  3. AWS_ACCOUNT_ID
+
+
+TIME ESTIMATE
+══════════════════════════════════════════════════════════════════
+
+AWS Setup:          5 minutes
+GitHub Setup:       2 minutes
+First Deployment:   7 minutes
+─────────────────────────────────
+TOTAL:             ~15 minutes
+
+
+AFTER SETUP, TO DEPLOY CHANGES:
+══════════════════════════════════════════════════════════════════
+
+Just push code - that's it!
+
+  git add .
+  git commit -m "your message"
+  git push origin main
+  
+  ✨ Automatically deploys in 7 minutes!
+
+
+HELP & TROUBLESHOOTING
+══════════════════════════════════════════════════════════════════
+
+Full walkthrough:   .github/SETUP_WALKTHROUGH.md
+Quick commands:     .github/QUICK_REFERENCE.md
+Architecture:       .github/CICD_ARCHITECTURE.md
+AWS setup:          .github/AWS_SETUP.md
+
+Questions? Check GitHub Actions logs for detailed error messages.
+
+┌─────────────────────────────────────────────────────────────────┐
+│  ✅ All checked? You're ready for automated deployments! 🚀     │
+└─────────────────────────────────────────────────────────────────┘

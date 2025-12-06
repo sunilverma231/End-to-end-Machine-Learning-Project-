@@ -7,4 +7,31 @@ __pycache__/
 
 # Virtual environment
 myenv/
+venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover
+.hypothesis/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Deployment packages
+deploy-*.zip
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
 
