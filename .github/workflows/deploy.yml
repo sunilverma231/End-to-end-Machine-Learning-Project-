@@ -11,7 +11,7 @@ on:
 
 env:
   AWS_REGION: eu-north-1
-  EB_APPLICATION_NAME: studentperformanceenv1
+  EB_APPLICATION_NAME: Student_performance_env_1
   EB_ENVIRONMENT_NAME: studentperformanceenv1-env
   DEPLOY_PACKAGE_NAME: deploy-${{ github.sha }}.zip
 
