@@ -18,7 +18,7 @@ env:
   EB_APPLICATION_NAME: Student_performance_env_1
   EB_ENVIRONMENT_NAME: studentperformanceenv1-env
   DEPLOY_PACKAGE_NAME: deploy-${{ github.sha }}.zip
-  VERSION_LABEL: build-${{ github.run_number }}-${{ github.sha }}
+  VERSION_LABEL: build-${{ github.run_id }}-${{ github.sha }}
 jobs:
   # Job 1: Run tests and linting
   test:
@@ -107,11 +107,21 @@ jobs:
       
       - name: Create EB application version
         run: |
-          aws elasticbeanstalk create-application-version \
-            --application-name ${{ env.EB_APPLICATION_NAME }} \
-            --version-label ${{ env.VERSION_LABEL }} \
-            --source-bundle S3Bucket="elasticbeanstalk-${{ env.AWS_REGION }}-${{ secrets.AWS_ACCOUNT_ID }}",S3Key="${{ env.DEPLOY_PACKAGE_NAME }}" \
-            --description "Deployed via GitHub Actions - Commit ${{ github.sha }}"
+          # Check if version already exists
+          if aws elasticbeanstalk describe-application-versions \
+              --application-name ${{ env.EB_APPLICATION_NAME }} \
+              --version-labels ${{ env.VERSION_LABEL }} \
+              --query "ApplicationVersions[0].VersionLabel" \
+              --output text 2>/dev/null | grep -q "${{ env.VERSION_LABEL }}"; then
+            echo "Version ${{ env.VERSION_LABEL }} already exists, skipping creation"
+          else
+            echo "Creating new version ${{ env.VERSION_LABEL }}"
+            aws elasticbeanstalk create-application-version \
+              --application-name ${{ env.EB_APPLICATION_NAME }} \
+              --version-label ${{ env.VERSION_LABEL }} \
+              --source-bundle S3Bucket="elasticbeanstalk-${{ env.AWS_REGION }}-${{ secrets.AWS_ACCOUNT_ID }}",S3Key="${{ env.DEPLOY_PACKAGE_NAME }}" \
+              --description "Deployed via GitHub Actions - Commit ${{ github.sha }}"
+          fi
       
       - name: Deploy to Elastic Beanstalk
         run: |
